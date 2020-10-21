@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
 //var cpUpload = upload.fields([{ name: 'photo', maxCount: 1 }])
 app.post('/addphoto', EventPhotos, async (req, res) => {
     for (var photo of req.files.photo) {
-        req.body.url = `http://info/${photo.filename}`
+        req.body.url = `https://photomeme.herokuapp.com/info/${photo.filename}`
         await Store.create(req.body)
     }
 
@@ -71,7 +71,7 @@ app.post('/addphoto', EventPhotos, async (req, res) => {
 
 app.post('/addvideo', EventPhotos, async (req, res) => {
     for (var photo of req.files.video) {
-        req.body.url = `http://info/${photo.filename}`
+        req.body.url = `https://photomeme.herokuapp.com/info/${photo.filename}`
         await Store.create(req.body)
     }
 
