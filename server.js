@@ -80,11 +80,11 @@ app.post('/addvideo', EventPhotos, async (req, res) => {
 });
 
 app.get('/allphoto',async (req,res)=>{
-    const data=await db.Store.find({type:'photo'});
+    const data=await Store.find({type:'photo'});
     res.status(200).json({data:data})
 });
 app.get('/allvideo',async (req,res)=>{
-    const data=await db.Store.find({type:'video'});
+    const data=await Store.find({type:'video'});
     res.status(200).json({data:data})
 });
 var port=process.env.PORT||3400
