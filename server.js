@@ -18,7 +18,7 @@ app.use(express.static(`${__dirname}/public`));
 app.set('view engine', 'ejs');
 
 
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 var multer = require('multer');
 var upload = multer({ dest: 'public/info/' })
