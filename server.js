@@ -77,7 +77,8 @@ app.post('/addvideo', EventPhotos, async (req, res) => {
 
     res.redirect('/')
 });
-app.listen('3400', () => {
+var port=process.env.PORT||3400
+app.listen(port, () => {
     console.log('connected');
 
 })
