@@ -55,7 +55,8 @@ var EventPhotos = upload1.fields([
 
     }
 ]);
-const Store = require('./storeModel')
+const Store = require('./storeModel');
+const { db } = require('./storeModel');
 app.get('/', (req, res) => {
     res.render('home')
 });
@@ -76,6 +77,15 @@ app.post('/addvideo', EventPhotos, async (req, res) => {
     }
 
     res.redirect('/')
+});
+
+app.get('/allphoto',async (req,res)=>{
+    const data=await db.Store.find({type:'photo'});
+    res.status(200).json({data:data})
+});
+app.get('/allvideo',async (req,res)=>{
+    const data=await db.Store.find({type:'video'});
+    res.status(200).json({data:data})
 });
 var port=process.env.PORT||3400
 app.listen(port, () => {
