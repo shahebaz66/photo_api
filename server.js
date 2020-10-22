@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const ejs = require('ejs')
+var cors = require('cors')
+const ejs = require('ejs');
 const app = express();
 
 
@@ -10,7 +11,7 @@ app.enable('trust proxy');
 //app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cors())
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
 app.use(bodyParser.text({ type: 'text/html' }));
 app.use(express.static(`${__dirname}/public`));
