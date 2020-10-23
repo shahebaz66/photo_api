@@ -169,10 +169,11 @@
         <header class="masthead mb-auto">
             <div class="inner">
                 <h3 class="masthead-brand">Cover</h3>
+                
 
             </div>
         </header>
-
+        <h3 class="masthead-brand"><%=status%></h3>
         <main role="main" class="inner cover">
 
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#photo">
@@ -181,6 +182,8 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#video">
                 Add videos
             </button>
+            <a href="/getPhoto" class="btn btn-primary">See all photos</a>
+            <a href="/getVideo" class="btn btn-primary">See all videos</a>
         </main>
 
         <footer class="mastfoot mt-auto">
@@ -246,7 +249,7 @@
                 <div class="modal-body">
                     <form action="/addvideo" method="post" enctype="multipart/form-data">
 
-                        <input type="hidden" name="type" value="photo">
+                        <input type="hidden" name="type" value="video">
                         <div class="form-group">
 
                             <select class="form-control" name="category" id="sel1">

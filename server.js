@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+var cloudinary = require('cloudinary').v2;
 var cors = require('cors')
 const ejs = require('ejs');
 const app = express();
@@ -59,34 +60,58 @@ var EventPhotos = upload1.fields([
 const Store = require('./storeModel');
 const { db } = require('./storeModel');
 app.get('/', (req, res) => {
-    res.render('home')
+    res.render('home',{status:""});
 });
 //var cpUpload = upload.fields([{ name: 'photo', maxCount: 1 }])
+cloudinary.config({ 
+    cloud_name: 'dry0qotso', 
+    api_key: '789945783977257', 
+    api_secret: 'AqrLccgymkTKXiSYB7WkRGu5Xoo' 
+  });
 app.post('/addphoto', EventPhotos, async (req, res) => {
     for (var photo of req.files.photo) {
-        req.body.url = `https://photomeme.herokuapp.com/info/${photo.filename}`
-        await Store.create(req.body)
+        cloudinary.uploader.upload(photo.path,async function(error, result) {
+            req.body.url=result.secure_url
+            //console.log(result, error)
+            await Store.create(req.body)
+        });
+        
+        
     }
 
-    res.redirect('/')
+    res.render('home',{status:"photo uploaded"});
 });
 
 app.post('/addvideo', EventPhotos, async (req, res) => {
+    //console.log(req.body);
     for (var photo of req.files.video) {
-        req.body.url = `https://photomeme.herokuapp.com/info/${photo.filename}`
+        cloudinary.uploader.upload(photo.path,{resource_type: "video"},async function(error, result) {
+            
+            req.body.url = result.secure_url
         await Store.create(req.body)
+        });
+        
     }
 
-    res.redirect('/')
+    res.render('home',{status:"video uploaded"});
 });
 
 app.get('/allphoto',async (req,res)=>{
-    const data=await db.Store.find({type:'photo'});
+    const data=await Store.find({type:'photo'});
     res.status(200).json({data:data})
 });
 app.get('/allvideo',async (req,res)=>{
-    const data=await db.Store.find({type:'video'});
+    const data=await Store.find({type:'video'});
     res.status(200).json({data:data})
+});
+
+app.get('/getPhoto',async (req,res)=>{
+    const data=await Store.find({type:'photo'});
+    res.render('post',{status:data});
+});
+app.get('/getVideo',async (req,res)=>{
+    const data=await Store.find({type:'video'});
+    res.render('video',{status:data});
 });
 var port=process.env.PORT||3400
 app.listen(port, () => {
